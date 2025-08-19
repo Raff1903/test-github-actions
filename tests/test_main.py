@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from hw1.src.main import app
+from src.main import app
 
 client = TestClient(app)
 
