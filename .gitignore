@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment (если будешь использовать)
+.venv/
+venv/
+env/
+
+# PyCharm
+.idea/
+*.iml
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test and coverage results
+.pytest_cache/
+.tox/
+.coverage
+coverage.xml
+nosetests.xml
+*.cover
+*.log
+
+# Jupyter and notebooks (если используешь в будущем)
+.ipynb_checkpoints/
