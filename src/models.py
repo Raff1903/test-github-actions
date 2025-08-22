@@ -1,8 +1,9 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, ForeignKey, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
+
 
 class Recipe(Base):
     __tablename__ = "recipes"
@@ -13,6 +14,7 @@ class Recipe(Base):
     views = Column(Integer, default=0)
     description = Column(Text)
     ingredients = relationship("Ingredient", back_populates="recipe")
+
 
 class Ingredient(Base):
     __tablename__ = "ingredients"

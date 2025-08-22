@@ -1,21 +1,27 @@
-from fastapi import FastAPI, Depends, HTTPException
+from typing import List
+
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy import asc, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import asc, desc
 from sqlalchemy.orm import selectinload
-import models, schemas
+
+import models
+import schemas
 from database import get_db
-from typing import List
 
 app = FastAPI()
 
+
 @app.post("/recipes", response_model=schemas.RecipeResponse)
-async def create_recipe(recipe: schemas.RecipeCreate, db: AsyncSession = Depends(get_db)):
+async def create_recipe(
+    recipe: schemas.RecipeCreate, db: AsyncSession = Depends(get_db)
+):
     db_recipe = models.Recipe(
         title=recipe.title,
         cooking_time=recipe.cooking_time,
         description=recipe.description,
-        views=0
+        views=0,
     )
     db.add(db_recipe)
     await db.commit()
@@ -28,13 +34,17 @@ async def create_recipe(recipe: schemas.RecipeCreate, db: AsyncSession = Depends
 
     return db_recipe
 
+
 @app.get("/recipes", response_model=List[schemas.RecipeResponse])
 async def get_recipes(db: AsyncSession = Depends(get_db)):
     result = await db.execute(
-        select(models.Recipe).order_by(desc(models.Recipe.views), asc(models.Recipe.cooking_time))
+        select(models.Recipe).order_by(
+            desc(models.Recipe.views), asc(models.Recipe.cooking_time)
+        )
     )
-    recipes = result.scalars().all()
-    return recipes
+
+    return result.scalars().all()
+
 
 @app.get("/recipes/{recipe_id}", response_model=schemas.RecipeDetailResponse)
 async def get_recipe(recipe_id: int, db: AsyncSession = Depends(get_db)):

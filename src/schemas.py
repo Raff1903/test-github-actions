@@ -1,14 +1,18 @@
-from pydantic import BaseModel
 from typing import List
+
+from pydantic import BaseModel
+
 
 class IngredientCreate(BaseModel):
     name: str
+
 
 class RecipeCreate(BaseModel):
     title: str
     cooking_time: int
     description: str
     ingredients: List[IngredientCreate]
+
 
 class RecipeResponse(BaseModel):
     id: int
@@ -19,11 +23,13 @@ class RecipeResponse(BaseModel):
     class Config:
         orm_mode = True
 
+
 class IngredientResponse(BaseModel):
     name: str
 
     class Config:
         orm_mode = True
+
 
 class RecipeDetailResponse(RecipeResponse):
     description: str
